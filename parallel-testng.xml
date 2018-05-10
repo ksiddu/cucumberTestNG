@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel Testing Suite" thread-count="2" parallel="classes">
+	<test name="Parallel Testing">
+		<classes>
+			<!-- <class name="com.bdd.runners.MultipleTestExecution"> -->
+			<class name="com.bdd.runners.Login1TestRunner" />
+			<class name="com.bdd.runners.Login2TestRunner" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

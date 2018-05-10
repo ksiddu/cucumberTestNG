@@ -1,0 +1,46 @@
+Maven Command line - commands
+
+Below is the command to execute only single testng.xml file: -
+
+mvn clean test -Dsurefire.suiteXmlFiles=mytestng.xml
+
+Below is command to parametrize multiple testng.xml files using Maven :-
+
+mvn clean test -Dsurefire.suiteXmlFiles=mytestng1.xml,mytestng2.xml
+
+mvn clean test -Dtest.env=QA
+
+mvn clean install test -DsuiteXmlFile=testngSuite.xml
+
+==========================================================================
+Siddu
+Sequential Run - To run with chrome browser
+mvn clean test -Dbrowser=chrome -DtestSuite=sequential-testng.xml
+
+To run with firefox browser
+mvn clean test -Dbrowser=firefox -DtestSuite=sequential-testng.xml
+
+
+Parallel Run - To run with chrome browser
+mvn clean test -Dbrowser=chrome -DtestSuite=parallel-testng.xml
+
+To run with firefox browser
+mvn clean test -Dbrowser=firefox -DtestSuite=parallel-testng.xml
+
+========================================================================
+Siddu
+Logic for Parallel testing using testng & maven
+
+1.Created 1 separate test runner for each feature file.
+2.Add this test runner as a class name in testNG xml file.
+3.Set the thread count to n (number of feature files), parallel="classes"
+4.mvn clean test -Dbrowser=firefox -DtestSuite=parallel-testng.xml
+
+=======================================================================
+Siddu
+Re-run failed scenarios
+To run with firefox browser
+
+Second run: mvn -Dcucumber.options="--plugin json:cucumber-rerun.json @rerun.txt" test
+
+Second run: mvn test -DtestSuite=sequential-rerun-testng.xml -Dbrowser=firefox -Dcucumber.options="--plugin json:build/reports/cucumber-rerun.json @rerun.txt"
