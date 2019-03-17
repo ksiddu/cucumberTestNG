@@ -13,6 +13,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testng.annotations.Parameters;
 
 import com.bdd.utils.BrowserFactory;
+import com.bdd.utils.PropertyUtil;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -30,6 +31,9 @@ public class LoginStepDefinitions {
 	private String ErrorMessage;
 	// BrowserFactory bf;
 	String browserType = System.getProperty("browserType");
+	String propFilePath = "src/test/resources/config.properties";
+	
+	PropertyUtil prop = new PropertyUtil(propFilePath);
 
 	// @Parameters({"browser"})
 	@Before
@@ -114,6 +118,34 @@ public class LoginStepDefinitions {
 		 */
 		boolean flag = driver.getPageSource().contains(expectedText);
 		Assert.assertTrue(flag, "Expected Text not present" + expectedText);
+	}
+	
+	@Given("I go to e-commerce login page$")
+	public void goToLoginPage() {
+		String loginUrl = prop.getValue("login_url");
+		driver.get(loginUrl);
+	}
+
+	@When("^I login with valid credentials$")
+	public void enterValidCredentials() {
+		WebElement signInLink = driver.findElement(By.linkText("Sign in"));
+		WebElement userName = driver.findElement(By.id("email"));
+		WebElement password = driver.findElement(By.id("passwd"));
+		WebElement button = driver.findElement(By.className("SubmitLogin"));
+        
+		signInLink.click();
+		userName.sendKeys(prop.getValue("username"));
+		password.sendKeys(prop.getValue("password"));
+		button.click();
+		System.out.println("Login details entered - enterValidCredentials()");
+		System.out.println("============================================");
+	}
+	
+	@Then("^Verify the home page$")
+	public void verifyHomePage() {
+		String expectedText =  prop.getValue("homepage_title");
+		String actualText = driver.getTitle();
+		Assert.assertEquals(actualText, expectedText);
 	}
 
 	@After
